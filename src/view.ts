@@ -9,11 +9,12 @@
  * - Game state drives all visual changes
  * - No game logic in view code
  * - Efficient DOM updates through element reuse
- * - Functional approach to side effects 
+ * - Functional approach to side effects
  */
 
 import { Birb, Viewport, Constants } from "./state";
 import { State } from "./types";
+import { getAssetUrl } from "./util";
 
 /**
  * Utility Functions for DOM Manipulation
@@ -30,7 +31,7 @@ const bringToForeground = (elem: SVGElement): void => {
 };
 
 /**
- * Create SVG element with properties 
+ * Create SVG element with properties
  *
  * @param namespace - SVG namespace URI
  * @param name - Element tag name
@@ -62,13 +63,13 @@ const createSvgElement = (
  * @returns Rendering function that takes State and updates DOM
  */
 export const render = (): ((s: State) => void) => {
-    // Initialize DOM references 
+    // Initialize DOM references
     const gameOver = document.querySelector("#gameOver") as SVGElement;
     const livesText = document.querySelector("#livesText") as HTMLElement;
     const scoreText = document.querySelector("#scoreText") as HTMLElement;
     const svg = document.querySelector("#svgCanvas") as SVGSVGElement;
 
-    // Configure SVG viewport 
+    // Configure SVG viewport
     svg.setAttribute(
         "viewBox",
         `0 0 ${Viewport.CANVAS_WIDTH} ${Viewport.CANVAS_HEIGHT}`,
@@ -84,7 +85,7 @@ export const render = (): ((s: State) => void) => {
      * - Memory efficiency
      */
     const refs: { bird: SVGElement | null } = {
-        bird: null, 
+        bird: null,
     };
 
     // Map game entity IDs to their DOM elements
@@ -125,7 +126,7 @@ export const render = (): ((s: State) => void) => {
         if (!refs.bird) {
             const birdElement = createSvgElement(svg.namespaceURI, "image", {
                 "data-game-element": "bird",
-                href: "/assets/birb.png",
+                href: getAssetUrl("assets/birb.png"),
                 width: `${birdWidth}`,
                 height: `${birdHeight}`,
             });
@@ -172,7 +173,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `ghost-bird-${ghostIndex}`,
-                            href: "/assets/birb.png",
+                            href: getAssetUrl("assets/birb.png"),
                             opacity: "0.5",
                             filter: "grayscale(100%)",
                             width: `${Birb.WIDTH}`,
@@ -198,8 +199,8 @@ export const render = (): ((s: State) => void) => {
         // Cleanup: remove ghost birds that are no longer active
         ghostElements.forEach((ghostElement, ghostId) => {
             if (!currentGhostIds.has(ghostId)) {
-                svg.removeChild(ghostElement); 
-                ghostElements.delete(ghostId); 
+                svg.removeChild(ghostElement);
+                ghostElements.delete(ghostId);
             }
         });
 
@@ -218,7 +219,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `pipe-${pipe.id}-top`,
-                            href: "/assets/building.png",
+                            href: getAssetUrl("assets/building.png"),
                             preserveAspectRatio: "none",
                             transform: "scale(1, -1)",
                         },
@@ -228,7 +229,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `pipe-${pipe.id}-bottom`,
-                            href: "/assets/building.png",
+                            href: getAssetUrl("assets/building.png"),
                             preserveAspectRatio: "none",
                         },
                     );
@@ -275,7 +276,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `powerup-${powerUp.id}`,
-                            href: "/assets/power-up.png",
+                            href: getAssetUrl("assets/power-up.png"),
                             width: `${Constants.POWERUP_SIZE}`,
                             height: `${Constants.POWERUP_SIZE}`,
                         },
@@ -308,7 +309,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "victoryImage",
-                                href: "/assets/victory.png",
+                                href: getAssetUrl("assets/victory.png"),
                                 x: "200",
                                 y: "150",
                                 width: "200",
@@ -373,7 +374,7 @@ export const render = (): ((s: State) => void) => {
                     })();
             } else {
                 // Show game over screen with blinking gameover.png
-                gameOver.setAttribute("visibility", "hidden"); 
+                gameOver.setAttribute("visibility", "hidden");
 
                 // Create blinking game over image
                 (svg.querySelector("#gameOverImage") as SVGElement | null) ??
@@ -383,7 +384,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "gameOverImage",
-                                href: "/assets/gameover.png",
+                                href: getAssetUrl("assets/gameover.png"),
                                 x: "150",
                                 y: "120",
                                 width: "300",
@@ -477,7 +478,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             id: "startButton",
-                            href: "/assets/start.png",
+                            href: getAssetUrl("assets/start.png"),
                             x: "225",
                             y: "170",
                             width: "150",
@@ -502,7 +503,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "pauseButton",
-                                href: "/assets/pause.png",
+                                href: getAssetUrl("assets/pause.png"),
                                 width: "120",
                                 height: "120",
                             },
@@ -524,7 +525,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "pauseButton",
-                                href: "/assets/pause.png",
+                                href: getAssetUrl("assets/pause.png"),
                                 width: "60",
                                 height: "60",
                             },

@@ -14,11 +14,10 @@
  * sequence of hashes.
  */
 class RNG {
-    
     private static m = 0x80000000;
-    
+
     private static a = 1103515245;
-   
+
     private static c = 12345;
 
     static hash = (seed: number) => (RNG.a * seed + RNG.c) % RNG.m;
@@ -73,3 +72,23 @@ export const clamp = (
     minBound: number,
     maxBound: number,
 ): number => Math.max(minBound, Math.min(maxBound, inputValue));
+
+/**
+ * Get the asset URL with the correct base path for deployment
+ *
+ * This function ensures that asset paths work correctly in both development
+ * and production environments (like Vercel deployment).
+ *
+ * @param assetPath - Relative path to the asset (e.g., "assets/birb.png")
+ * @returns Full URL to the asset that works in all environments
+ */
+export const getAssetUrl = (assetPath: string): string => {
+    if (typeof window === "undefined") {
+        // Server-side rendering case
+        return assetPath;
+    }
+
+    const { protocol, hostname, port } = new URL(import.meta.url);
+    const baseUrl = `${protocol}//${hostname}${port ? `:${port}` : ""}`;
+    return `${baseUrl}/${assetPath}`;
+};
