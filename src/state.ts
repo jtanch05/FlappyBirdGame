@@ -22,7 +22,6 @@ import {
     PowerUp,
     PowerUpType,
     State,
-
 } from "./types";
 import { clamp, randomBetween } from "./util";
 
@@ -48,34 +47,33 @@ export const Birb = {
     INITIAL_Y: Viewport.CANVAS_HEIGHT / 2,
 } as const;
 
-
 export const Constants = {
     // Pipe properties
     PIPE_WIDTH: 50,
-    PIPE_SPEED: 3, 
+    PIPE_SPEED: 3,
 
     // Bird physics
-    GRAVITY: 0.5, 
-    FLAP_STRENGTH: -7, 
+    GRAVITY: 0.5,
+    FLAP_STRENGTH: -7,
 
     // Collision bounce mechanics
     BOUNCE_VELOCITY_MIN: 4,
     BOUNCE_VELOCITY_MAX: 7,
-    COLLISION_COOLDOWN_MS: 500, 
+    COLLISION_COOLDOWN_MS: 500,
 
     // Timing and lifecycle
-    TICK_RATE_MS: 16, 
+    TICK_RATE_MS: 16,
     INITIAL_LIVES: 3,
-    OFFSCREEN_THRESHOLD: -50, 
-    COUNTDOWN_DURATION_MS: 1000, 
+    OFFSCREEN_THRESHOLD: -50,
+    COUNTDOWN_DURATION_MS: 1000,
 
     // Power-up system configuration
     POWERUP_SIZE: 20,
     POWERUP_SPEED: 1,
-    SHRINK_DURATION: 6000, 
-    SHRINK_SCALE: 0.6, 
-    SLOW_DOWN_DURATION: 8000, 
-    SLOW_DOWN_MIN_MULTIPLIER: 0.3, 
+    SHRINK_DURATION: 6000,
+    SHRINK_SCALE: 0.6,
+    SLOW_DOWN_DURATION: 8000,
+    SLOW_DOWN_MIN_MULTIPLIER: 0.3,
 } as const;
 
 /**
@@ -92,9 +90,9 @@ export const Constants = {
 /**
  * Create a new bird entity with physics properties
  *
- * @param x 
- * @param y 
- * @returns 
+ * @param x
+ * @param y
+ * @returns
  */
 export const createBird = (x: number, y: number): Bird => ({
     pos: { x, y },
@@ -276,7 +274,7 @@ export class Tick implements Action {
         const shrinkActivated = collectedPowerUps.some(
             powerUp => powerUp.type === "shrink",
         );
-       
+
         const newShrinkActive =
             shrinkActivated ||
             (currentState.shrinkActive && newTime < currentState.shrinkEndTime);
@@ -412,25 +410,25 @@ export class Tick implements Action {
         const baseState = {
             ...currentState,
             // Update game entities
-            bird: updatedBird, 
-            pipes: scoredPipes, 
-            powerUps: workingPowerUps, 
+            bird: updatedBird,
+            pipes: scoredPipes,
+            powerUps: workingPowerUps,
             // Update game metrics
-            score: newScore, 
-            time: newTime, 
-            gameTime: newGameTime, 
-            currentRun: newCurrentRun, 
+            score: newScore,
+            time: newTime,
+            gameTime: newGameTime,
+            currentRun: newCurrentRun,
             // Update game state flags
-            gameEnd: allPipesCleared, 
-            gameWon: allPipesCleared, 
+            gameEnd: allPipesCleared,
+            gameWon: allPipesCleared,
             // Update power-up effects
-            shrinkActive: newShrinkActive, 
-            shrinkEndTime: newShrinkEndTime, 
-            slowDownActive: newSlowDownActive, 
-            slowDownEndTime: newSlowDownEndTime, 
-            slowDownMultiplier: finalSpeedMultiplier, 
+            shrinkActive: newShrinkActive,
+            shrinkEndTime: newShrinkEndTime,
+            slowDownActive: newSlowDownActive,
+            slowDownEndTime: newSlowDownEndTime,
+            slowDownMultiplier: finalSpeedMultiplier,
             // Update statistics
-            powerUpsSpawned: newPowerUpsSpawned, 
+            powerUpsSpawned: newPowerUpsSpawned,
             powerUpsCollected: newPowerUpsCollected,
             // Update random seed for deterministic behavior
             rngSeed: spawnResult.nextSeed,
@@ -460,11 +458,11 @@ export class Tick implements Action {
             // Return collision state with all updates
             return {
                 ...baseState,
-                bird: bouncedBird, 
+                bird: bouncedBird,
                 lives: newLives,
-                gameEnd: baseState.gameEnd || newLives <= 0, 
-                gameWon: baseState.gameWon && newLives > 0, 
-                slowDownActive: newSlowDownActive, 
+                gameEnd: baseState.gameEnd || newLives <= 0,
+                gameWon: baseState.gameWon && newLives > 0,
+                slowDownActive: newSlowDownActive,
                 slowDownEndTime: newSlowDownEndTime,
                 slowDownMultiplier: finalSpeedMultiplier,
                 rngSeed: bounceComputation.nextSeed, // Updated random seed
@@ -503,8 +501,8 @@ export class Flap implements Action {
         // First flap starts the game and resets game timer
         if (!currentState.gameStarted)
             return {
-                ...currentState, 
-                bird: flapBird(currentState.bird), // Apply flap 
+                ...currentState,
+                bird: flapBird(currentState.bird), // Apply flap
                 gameStarted: true,
                 gameTime: 0, // Reset game-specific timer
             };
@@ -534,7 +532,7 @@ export class Pause implements Action {
             return {
                 ...currentState,
                 isPaused: false,
-                countdown: 3, 
+                countdown: 3,
                 countdownTime: currentState.time, // Record when countdown started
             };
         }
@@ -727,8 +725,8 @@ const shouldSpawnPowerUp = (
  * - Easy to test with different bird states
  * - Can be composed with other transformations
  *
- * @param bird 
- * @returns 
+ * @param bird
+ * @returns
  */
 export const updateBirdPosition = (bird: Bird): Bird => {
     // Apply gravity to vertical velocity (physics simulation)
@@ -738,16 +736,16 @@ export const updateBirdPosition = (bird: Bird): Bird => {
     const newPosY = bird.pos.y + newVelY;
 
     return {
-        ...bird, 
+        ...bird,
         pos: {
-            x: bird.pos.x, 
+            x: bird.pos.x,
             y: clamp(
                 newPosY,
-                bird.radius, 
-                Viewport.CANVAS_HEIGHT - bird.radius, 
+                bird.radius,
+                Viewport.CANVAS_HEIGHT - bird.radius,
             ),
         },
-        vel: { ...bird.vel, y: newVelY }, 
+        vel: { ...bird.vel, y: newVelY },
     };
 };
 
@@ -782,7 +780,7 @@ const movePipes =
     (speedMultiplier: number = 1.0) =>
     (pipes: ReadonlyArray<Pipe>): ReadonlyArray<Pipe> =>
         pipes.map(pipe => ({
-            ...pipe, 
+            ...pipe,
             x: pipe.x - Constants.PIPE_SPEED * speedMultiplier, // Update position
         }));
 
@@ -819,10 +817,10 @@ const checkBoundaryCollision = (bird: Bird): boolean =>
  * 3. Award 1 point per newly passed pipe
  * 4. Prevent double-scoring by tracking passed state
  *
- * @param bird 
- * @param pipes 
- * @param currentScore 
- * @returns 
+ * @param bird
+ * @param pipes
+ * @param currentScore
+ * @returns
  */
 export const updateScore = (
     bird: Bird,
@@ -830,11 +828,10 @@ export const updateScore = (
     currentScore: number,
 ): { score: number; pipes: ReadonlyArray<Pipe> } => {
     // Mark pipes as passed if bird is completely past them
-    const updatedPipes = pipes.map(
-        pipe =>
-            !pipe.passed && bird.pos.x > pipe.x + pipe.width // Not passed yet and bird past right edge
-                ? { ...pipe, passed: true } // Mark as passed
-                : pipe, 
+    const updatedPipes = pipes.map(pipe =>
+        !pipe.passed && bird.pos.x > pipe.x + pipe.width // Not passed yet and bird past right edge
+            ? { ...pipe, passed: true } // Mark as passed
+            : pipe,
     );
 
     //  Find pipes that were just passed this frame (prevent double-scoring)
@@ -877,7 +874,7 @@ export const parseCSV = (csvContent: string): ReadonlyArray<PipeData> => {
         return {
             gapY, // Normalized gap center (0-1)
             gapHeight, // Normalized gap size (0-1)
-            spawnTime: time * 1000, 
+            spawnTime: time * 1000,
         };
     });
 };
@@ -898,11 +895,11 @@ export const reduceState = (s: State, action: Action): State => action.apply(s);
  * - Testable: easy to unit test with various collision scenarios
  * - Composable: can be used in different contexts
  *
- * @param bird 
- * @param pipes 
+ * @param bird
+ * @param pipes
  * @param boundaryCollision
- * @param seed 
- * @returns 
+ * @param seed
+ * @returns
  */
 const calculateBounce = (
     bird: Bird,
