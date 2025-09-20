@@ -125,7 +125,7 @@ export const render = (): ((s: State) => void) => {
         if (!refs.bird) {
             const birdElement = createSvgElement(svg.namespaceURI, "image", {
                 "data-game-element": "bird",
-                href: "assets/birb.png",
+                href: "/assets/birb.png",
                 width: `${birdWidth}`,
                 height: `${birdHeight}`,
             });
@@ -172,7 +172,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `ghost-bird-${ghostIndex}`,
-                            href: "assets/birb.png",
+                            href: "/assets/birb.png",
                             opacity: "0.5",
                             filter: "grayscale(100%)",
                             width: `${Birb.WIDTH}`,
@@ -218,7 +218,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `pipe-${pipe.id}-top`,
-                            href: "assets/building.png",
+                            href: "/assets/building.png",
                             preserveAspectRatio: "none",
                             transform: "scale(1, -1)",
                         },
@@ -228,7 +228,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `pipe-${pipe.id}-bottom`,
-                            href: "assets/building.png",
+                            href: "/assets/building.png",
                             preserveAspectRatio: "none",
                         },
                     );
@@ -275,7 +275,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             "data-game-element": `powerup-${powerUp.id}`,
-                            href: "assets/power-up.png",
+                            href: "/assets/power-up.png",
                             width: `${Constants.POWERUP_SIZE}`,
                             height: `${Constants.POWERUP_SIZE}`,
                         },
@@ -308,7 +308,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "victoryImage",
-                                href: "assets/victory.png",
+                                href: "/assets/victory.png",
                                 x: "200",
                                 y: "150",
                                 width: "200",
@@ -383,7 +383,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "gameOverImage",
-                                href: "assets/gameover.png",
+                                href: "/assets/gameover.png",
                                 x: "150",
                                 y: "120",
                                 width: "300",
@@ -477,7 +477,7 @@ export const render = (): ((s: State) => void) => {
                         "image",
                         {
                             id: "startButton",
-                            href: "assets/start.png",
+                            href: "/assets/start.png",
                             x: "225",
                             y: "170",
                             width: "150",
@@ -502,7 +502,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "pauseButton",
-                                href: "assets/pause.png",
+                                href: "/assets/pause.png",
                                 width: "120",
                                 height: "120",
                             },
@@ -524,7 +524,7 @@ export const render = (): ((s: State) => void) => {
                             "image",
                             {
                                 id: "pauseButton",
-                                href: "assets/pause.png",
+                                href: "/assets/pause.png",
                                 width: "60",
                                 height: "60",
                             },
